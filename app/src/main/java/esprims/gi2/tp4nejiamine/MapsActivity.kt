@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
+import android.location.Geocoder
 import android.location.Location
 import android.net.Uri
 import android.os.Bundle
@@ -19,6 +20,7 @@ import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
+import java.util.*
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
@@ -59,14 +61,14 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             .bearing(45F)
             .tilt(90F)
             .build()
-        mMap.addMarker(MarkerOptions().position(tunis).title("Tunis"))
+        //mMap.addMarker(MarkerOptions().position(tunis).title("Tunis"))
         //mMap.addMarker(MarkerOptions().position(sousse).title("Marker in Sousse"))
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(tunis, 10F))
+        //mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(tunis, 10F))
         //mMap.addPolyline(PolylineOptions().add(monastir, sousse))
-        mMap.addCircle(
-            CircleOptions().radius(3000.0).center(tunis).fillColor(Color.BLUE)
-                .strokeColor(Color.RED)
-        )
+        //mMap.addCircle(
+        //    CircleOptions().radius(3000.0).center(tunis).fillColor(Color.BLUE)
+        //        .strokeColor(Color.RED)
+        //)
         //mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
         mMap.setOnMapClickListener {
             Toast.makeText(this, it.toString(), Toast.LENGTH_LONG).show()
@@ -119,6 +121,12 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                         MarkerOptions().position(LatLng(it.latitude, it.longitude))
                             .title("Last position")
                     )
+
+                    var geocoder = Geocoder(applicationContext, Locale.getDefault())
+                    var address = geocoder.getFromLocation(it.latitude, it.longitude, 1)
+                    Toast.makeText(this, address.get(0).toString(), Toast.LENGTH_LONG).show()
+                }else{
+                    Toast.makeText(this, "Unknown last location", Toast.LENGTH_LONG).show()
                 }
             }
         }
