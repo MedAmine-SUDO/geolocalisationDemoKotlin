@@ -7,8 +7,7 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.*
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
@@ -37,7 +36,23 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
         // Add a marker in Sydney and move the camera
         val sydney = LatLng(-34.0, 151.0)
-        mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+        val monastir = LatLng(35.76, 10.81)
+        val sousse = LatLng(35.82, 10.64)
+        val tunis = LatLng(36.8, 10.17)
+
+        val cameraPosition = CameraPosition.Builder()
+            .target(monastir)
+            .zoom(10F)
+            .bearing(45F)
+            .tilt(90F)
+            .build()
+        mMap.addMarker(MarkerOptions().position(monastir).title("Marker in Monastir"))
+        mMap.addMarker(MarkerOptions().position(sousse).title("Marker in Sousse"))
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(sousse, 10F))
+        mMap.mapType=GoogleMap.MAP_TYPE_SATELLITE
+        mMap.addPolyline(PolylineOptions().add(monastir, sousse))
+        mMap.addCircle(CircleOptions())
+        //mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
+
     }
 }
