@@ -1,10 +1,14 @@
 package esprims.gi2.tp4nejiamine
 
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Intent
+import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
-
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
@@ -41,18 +45,33 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         val tunis = LatLng(36.8, 10.17)
 
         val cameraPosition = CameraPosition.Builder()
-            .target(monastir)
+            .target(tunis)
             .zoom(10F)
             .bearing(45F)
             .tilt(90F)
             .build()
-        mMap.addMarker(MarkerOptions().position(monastir).title("Marker in Monastir"))
-        mMap.addMarker(MarkerOptions().position(sousse).title("Marker in Sousse"))
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(sousse, 10F))
-        mMap.mapType=GoogleMap.MAP_TYPE_SATELLITE
-        mMap.addPolyline(PolylineOptions().add(monastir, sousse))
-        mMap.addCircle(CircleOptions())
+        mMap.addMarker(MarkerOptions().position(tunis).title("Marker in Tunis"))
+        //mMap.addMarker(MarkerOptions().position(sousse).title("Marker in Sousse"))
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(tunis, 10F))
+        //mMap.addPolyline(PolylineOptions().add(monastir, sousse))
+        mMap.addCircle(CircleOptions().radius(3000.0).center(tunis).fillColor(Color.BLUE).strokeColor(Color.RED))
         //mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
+        mMap.setOnMapClickListener {
+            Toast.makeText(this, it.toString(), Toast.LENGTH_LONG).show()
+        }
+
+        mMap.setOnMarkerClickListener{
+            var openUrl = Intent(Intent.ACTION_VIEW)
+            when (it.title) {
+                "Marker in Tunis" -> {
+                    openUrl.data = Uri.parse("https://fr.wikipedia.org/wiki/Tunisie")
+                    startActivity(openUrl)
+                    true
+                }
+                else -> false
+
+            }
+        }
 
     }
 }
