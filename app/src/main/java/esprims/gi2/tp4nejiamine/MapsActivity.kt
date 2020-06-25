@@ -151,5 +151,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                 getLastPosition()
             else Toast.makeText(applicationContext, "Accès non autorisé !", Toast.LENGTH_LONG).show()
         }
+        if(requestCode==2){
+            if(grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)
+                getLastPosition()
+            else Toast.makeText(applicationContext, "Accès non autorisé !", Toast.LENGTH_LONG).show()
+        }
     }
 }
