@@ -1,12 +1,9 @@
 package esprims.gi2.tp4nejiamine
 
 import android.Manifest
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Color
 import android.location.Geocoder
-import android.location.Location
 import android.net.Uri
 import android.os.Bundle
 import android.widget.Toast
@@ -16,7 +13,6 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices.getFusedLocationProviderClient
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
@@ -50,17 +46,19 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         mMap = googleMap
 
         // Define places
-        val sydney = LatLng(-34.0, 151.0)
-        val monastir = LatLng(35.76, 10.81)
-        val sousse = LatLng(35.82, 10.64)
-        val tunis = LatLng(36.8, 10.17)
+        //val sydney = LatLng(-34.0, 151.0)
+        //val monastir = LatLng(35.76, 10.81)
+        //val sousse = LatLng(35.82, 10.64)
+        //val tunis = LatLng(36.8, 10.17)
 
+        /*
         val cameraPosition = CameraPosition.Builder()
             .target(tunis)
             .zoom(10F)
             .bearing(45F)
             .tilt(90F)
             .build()
+        */
 
         //Uncomment these lines to run them
         //Add marker for different places
@@ -82,7 +80,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         }
 
         mMap.setOnMarkerClickListener {
-            var openUrl = Intent(Intent.ACTION_VIEW)
+            val openUrl = Intent(Intent.ACTION_VIEW)
             openUrl.data = Uri.parse("https://fr.wikipedia.org/wiki/" + it.title)
             startActivity(openUrl)
             true
@@ -133,8 +131,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                     mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(it.latitude, it.longitude), 10F))
 
                     //Implement Geocoder
-                    var geocoder = Geocoder(applicationContext, Locale.getDefault())
-                    var address = geocoder.getFromLocation(it.latitude, it.longitude, 1)
+                    val geocoder = Geocoder(applicationContext, Locale.getDefault())
+                    val address = geocoder.getFromLocation(it.latitude, it.longitude, 1)
                     Toast.makeText(this, address.get(0).getAddressLine(0).toString(), Toast.LENGTH_LONG).show()
                 }else{
                     Toast.makeText(this, "Unknown last location", Toast.LENGTH_LONG).show()
