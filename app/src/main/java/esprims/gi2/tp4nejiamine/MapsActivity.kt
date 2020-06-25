@@ -49,7 +49,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
 
-        // Add a marker in Sydney and move the camera
+        // Define places
         val sydney = LatLng(-34.0, 151.0)
         val monastir = LatLng(35.76, 10.81)
         val sousse = LatLng(35.82, 10.64)
@@ -61,10 +61,17 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             .bearing(45F)
             .tilt(90F)
             .build()
+
+        //Uncomment these lines to run them
+        //Add marker for different places
         //mMap.addMarker(MarkerOptions().position(tunis).title("Tunis"))
         //mMap.addMarker(MarkerOptions().position(sousse).title("Marker in Sousse"))
         //mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(tunis, 10F))
+
+        //Draw line between monastir and sousse
         //mMap.addPolyline(PolylineOptions().add(monastir, sousse))
+
+        //Draw
         //mMap.addCircle(
         //    CircleOptions().radius(3000.0).center(tunis).fillColor(Color.BLUE)
         //        .strokeColor(Color.RED)
@@ -114,17 +121,21 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                 if (it != null) {
                     Toast.makeText(
                         this,
-                        "Latitude: " + it.latitude + " Logitude: " + it.longitude + ";",
+                        "Your last location coordinates \nLatitude: " + it.latitude + " Logitude: " + it.longitude + ";",
                         Toast.LENGTH_LONG
                     ).show()
+                    //Add marker on your last position
                     mMap.addMarker(
                         MarkerOptions().position(LatLng(it.latitude, it.longitude))
                             .title("Last position")
                     )
+                    // Move the camera to the position with zoom
+                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(it.latitude, it.longitude), 10F))
 
+                    //Implement Geocoder
                     var geocoder = Geocoder(applicationContext, Locale.getDefault())
                     var address = geocoder.getFromLocation(it.latitude, it.longitude, 1)
-                    Toast.makeText(this, address.get(0).toString(), Toast.LENGTH_LONG).show()
+                    Toast.makeText(this, address.get(0).getAddressLine(0).toString(), Toast.LENGTH_LONG).show()
                 }else{
                     Toast.makeText(this, "Unknown last location", Toast.LENGTH_LONG).show()
                 }
